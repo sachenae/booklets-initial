@@ -1,12 +1,13 @@
 <%@ taglib uri ="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="$../styles.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -28,10 +29,12 @@
                 </div>
             </div>
             <div class="col-9 flex-md-last">
+                <br>
 
+                <div class="card">
+                    <div class="card-body">
 
-                <div>
-                <table class="table table-striped">
+                        <table class="table table-striped">
                     <thead>
                     <tr>
                         <th colspan="2" >Income and Receivables Statement</th>
@@ -46,6 +49,16 @@
                         <th></th>
                     </tr>
                     </thead>
+                            <tfoot class="border border-primary">
+                            <tr class="font-weight-bold">
+                                <td colspan="5">Total Income</td>
+                                <c:set var="total_income" value="${0}"/>
+                                <c:forEach var="article" items="${lists}">
+                                    <c:set var="total_income" value="${total_income + article.amount}" />
+                                </c:forEach>
+                                <td>${total_income}</td>
+                            </tr>
+                            </tfoot>
                     <tbody>
                     <c:forEach var = "list" items = "${lists}">
                         <tr>
@@ -57,20 +70,72 @@
                             <td>${list.amount}</td>
                             <td>
                                 <a href="/income_delete/${list.id}">
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                            </button>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </a>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                </div>
-
-
-
             </div>
+                </div>
+                <br><br>
+                <div class="card">
+                    <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+
+                        <tr>
+                            <th colspan="2" >Expenses and Payables Statement</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Tr. ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Received From</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Payment Mode</th>
+                            <th scope="col">Amount</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tfoot class="border border-primary">
+                        <tr class="font-weight-bold">
+                            <td colspan="5">Total Expenses</td>
+                            <c:set var="total_expense" value="${0}"/>
+                            <c:forEach var="article" items="${elists}">
+                                <c:set var="total_expense" value="${total_expense + article.amount}" />
+                            </c:forEach>
+                            <td>${total_expense}</td>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <c:forEach var = "list" items = "${elists}">
+                            <tr>
+                                <td>${list.id}</td>
+                                <td>${list.date}</td>
+                                <td>${list.paidTo}</td>
+                                <td>${list.description}</td>
+                                <td>${list.mode}</td>
+                                <td>${list.amount}</td>
+                                <td>
+                                    <a href="/expense_delete/${list.id}">
+                                        <button type="button" class="close" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+
+
+
             <div class="col-3 flex-first flex-md-unordered bg-faded px-0">
                 <nav class="nav flex-column">
 
@@ -184,7 +249,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Paid To</span>
                         </div>
-                        <input type="text" name="receivedfrom" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" name="paidto" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
