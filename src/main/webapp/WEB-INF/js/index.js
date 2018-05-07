@@ -1,4 +1,5 @@
 // Get the modal
+alert('hu');
 const modal = document.getElementById('id01');
 
 // When the user clicks anywhere outside of the modal, close it
@@ -17,4 +18,10 @@ function getModal(){
 function closeModal(){
     modal.style.display = 'none';
 
+}
+
+const login = document.getElementById('login');
+
+login.onclick = function() {
+    windows.location.href('main.jsp');
 }
